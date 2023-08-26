@@ -77,6 +77,29 @@
                             <!--end:Menu link-->
                         </div>
                         <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="<?= base_url('peminjaman/index'); ?>">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Peminjaman Buku</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link" href="<?= base_url('peminjaman/daftar'); ?>">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Daftar Peminjaman</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
 
                     </div>
                 </div>
