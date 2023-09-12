@@ -37,9 +37,14 @@ class Auth extends CI_Controller
         $user = $this->db->get_where('user', ['username' => $username])->row();
 
         if ($user && password_verify($password, $user->password)) {
-            $data = ['email' => $user->email];
+            $data = [
+                'id_user' => $user->id_user,
+                'email' => $user->email,
+                'username' => $user->username,
+                'nama' => $user->nama
+            ];
             $this->session->set_userdata($data);
-            redirect('user/index');
+            redirect('dashboard/index');
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Invalid credentials</div>');
             redirect('auth');
@@ -176,5 +181,14 @@ class Auth extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password reset successfully. Please login with your new password.</div>');
             redirect('auth');
         }
+    }
+    public function logout()
+    {
+        $this->session->unset_userdata('id_user');
+        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('nama');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out</div>');
+        redirect('auth');
     }
 }

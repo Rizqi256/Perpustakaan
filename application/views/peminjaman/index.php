@@ -71,23 +71,36 @@
                     <div class="container-xxl" id="kt_content_container">
                         <!--begin::Card-->
                         <div class="card">
+                            <!--begin::Card header-->
+                            <div class="card-header border-0 pt-6">
+                                <!--begin::Card title-->
+                                <div class="card-title">
+                                    <?= $this->session->flashdata('message'); ?>
+                                </div>
+                            </div>
 
                             <!--begin::Card body-->
                             <div class="card-body py-4">
                                 <!--begin::Table-->
                                 <form action="<?= base_url('peminjaman/pinjam_buku'); ?>" method="post">
-                                    <div class="mb-3">
-                                        <label for="id_user" class="form-label">ID User</label>
-                                        <input type="text" class="form-control" name="id_user" id="id_user" required>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="inputGroupSelect01">Nama</label>
+                                        <select class="form-select" name="id_user" id="inputGroupSelect01">
+                                            <?php foreach ($data_users as $user) : ?>
+                                                <option value="<?= $user->id_user; ?>"><?= $user->nama; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="id_buku" class="form-label">ID Buku</label>
-                                        <input type="text" class="form-control" name="id_buku" id="id_buku" required>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="inputGroupSelect01">Nama Buku</label>
+                                        <select class="form-select form-select-sm form-select-solid" data-control="select2" name="id_buku[]" id="inputGroupSelect01" multiple>
+                                            <?php foreach ($data_buku as $buku) : ?>
+                                                <option value="<?= $buku->id_buku; ?>"><?= $buku->nama_buku; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="tanggal_pengembalian" class="form-label">Tanggal Pengembalian</label>
-                                        <input type="datetime-local" class="form-control" name="tanggal_pengembalian" id="tanggal_pengembalian" required>
-                                    </div>
+
+
                                     <button type="submit" class="btn btn-primary">Pinjam Buku</button>
                                 </form>
 

@@ -37,7 +37,7 @@
                         <!--begin::Page title-->
                         <div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-2 pb-10 pb-lg-0" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
                             <!--begin::Heading-->
-                            <h1 class="d-flex flex-column text-dark fw-bold my-0 fs-1">Management Kategori Buku</h1>
+                            <h1 class="d-flex flex-column text-dark fw-bold my-0 fs-1">Edit Profile</h1>
                             <!--end::Heading-->
 
                         </div>
@@ -72,92 +72,74 @@
                         <!--begin::Card-->
                         <div class="card">
                             <!--begin::Card header-->
-                            <div class="card-header border-0 pt-6">
-                                <!--begin::Card title-->
-                                <div class="card-title">
-                                    <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative my-1">
-                                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
-                                    </div>
-                                    <!--end::Search-->
 
-                                </div>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Tambah Kategori
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Kategori</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form action="<?= base_url('kategori_buku/create'); ?>" method="post">
-                                                <div class="modal-body">
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" name="nama_kategori" aria-label="Sizing example input" placeholder="Nama Kategori" aria-describedby="inputGroup-sizing-default">
-                                                    </div>
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--begin::Card title-->
-
-                            </div>
                             <!--end::Card header-->
                             <!--begin::Card body-->
-                            <div class="card-body py-4">
-                                <!--begin::Table-->
-                                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
-                                    <thead>
-                                        <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                            <th class="min-w-125px">Id</th>
-                                            <th class="min-w-125px">Nama Kategori</th>
-                                            <th class="text-end min-w-100px">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-gray-600 fw-semibold">
-                                        <?php foreach ($data_kategori_buku as $kategori) : ?>
-                                            <tr>
-                                                <td><?= $kategori->id_kategori_buku; ?></td>
-                                                <td><?= $kategori->nama_kategori; ?></td>
-                                                <td class="text-end">
-                                                    <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                                    <!--begin::Menu-->
-                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                                        <!--begin::Menu item-->
-                                                        <div class="menu-item px-3">
-                                                            <a href="<?= base_url('kategori_buku/edit/' . $kategori->id_kategori_buku); ?>" class="menu-link px-3">Edit</a>
-                                                        </div>
-                                                        <!--end::Menu item-->
-                                                        <!--begin::Menu item-->
-                                                        <div class="menu-item px-3">
-                                                            <a href="<?= base_url('kategori_buku/delete/' . $kategori->id_kategori_buku); ?>" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
-                                                        </div>
-                                                        <!--end::Menu item-->
+                            <div class="card mb-5 mb-xxl-8">
+                                <div class="card-body pt-9 pb-0">
+                                    <!--begin::Details-->
+                                    <div class="d-flex flex-wrap flex-sm-nowrap">
+                                        <?php $user = load_user_data(); ?>
+
+                                        <!--begin::Info-->
+                                        <div class="flex-grow-1">
+                                            <!--begin::Title-->
+                                            <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                                                <!--begin::User-->
+                                                <div class="d-flex flex-column">
+                                                    <!--begin::Name-->
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <a class="text-gray-900 text-hover-primary fs-2 fw-bold me-1"><?= isset($user->nama) ? $user->nama : ''; ?></a>
+
                                                     </div>
-                                                    <!--end::Menu-->
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                                <!--end::Table-->
+                                                    <!--end::Name-->
+                                                    <!--begin::Info-->
+                                                    <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+                                                        <a class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                                            <i class="ki-duotone ki-profile-circle fs-4 me-1">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                                <span class="path3"></span>
+                                                            </i><?= isset($user->username) ? $user->username : ''; ?></a>
+
+                                                        <a class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
+                                                            <i class="ki-duotone ki-sms fs-4 me-1">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                            </i><?= isset($user->email) ? $user->email : ''; ?></a>
+                                                    </div>
+                                                    <!--end::Info-->
+                                                </div>
+                                                <!--end::User-->
+
+                                            </div>
+                                            <!--end::Title-->
+
+                                        </div>
+                                        <!--end::Info-->
+                                    </div>
+                                    <!--end::Details-->
+
+                                </div>
+                                <?= $this->session->flashdata('message'); ?>
+
+                            </div>
+                            <div class="card-body py-4">
+
+                                <form action="<?= base_url('user/update_profile'); ?>" method="post">
+                                    <div class="mb-3">
+                                        <label for="nama" class="form-label">Edit Nama</label>
+                                        <input type="text" class="form-control" id="nama" name="nama" value="<?= isset($user->nama) ? $user->nama : ''; ?>">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Edit Password</label>
+                                        <input type="password" class="form-control" id="password" name="password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
                             </div>
                             <!--end::Card body-->
+
                         </div>
                         <!--end::Card-->
                     </div>

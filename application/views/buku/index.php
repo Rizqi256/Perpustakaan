@@ -144,7 +144,7 @@
                                         <?php foreach ($data_buku as $buku) : ?>
                                             <tr>
                                                 <td><?= $buku->id_buku; ?></td>
-                                                <td><?= $buku->id_kategori_buku; ?></td>
+                                                <td><?= $buku->nama_kategori; ?></td>
                                                 <td><?= $buku->nama_buku; ?></td>
                                                 <td class="text-end">
                                                     <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
