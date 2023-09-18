@@ -9,18 +9,48 @@ class Buku extends CI_Controller
         parent::__construct();
         $this->load->model('Buku_model');
         $this->load->model('Kategori_buku_model');
+        $this->load->library('pagination');
     }
 
     public function index()
     {
-        $data['data_buku'] = $this->Buku_model->get_all_buku();
-        $data['data_kategori_buku'] = $this->Kategori_buku_model->get_all_kategori_buku();
+        $config = array();
+        $config["base_url"] = base_url() . "buku/index";
+        $config["total_rows"] = $this->Buku_model->get_total_records();
+        $config["per_page"] = 2;
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
 
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1; // Mendapatkan nomor halaman dari URI
+
+        $data['data_buku'] = $this->Buku_model->get_buku_paginated($config["per_page"], $page);
+
+        // Load view dengan data paginasi
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('buku/index', $data);
         $this->load->view('templates/footer');
     }
+
+    public function search()
+    {
+        $keyword = $this->input->post('keyword'); // Ambil kata kunci dari form pencarian
+
+        // Panggil model atau method di model Anda untuk melakukan pencarian
+        $data['data_buku'] = $this->Buku_model->search_buku($keyword);
+
+        // Set variabel $searched menjadi true untuk menampilkan tombol "Back"
+        $data['searched'] = true;
+
+        // Load view yang menampilkan hasil pencarian
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('buku/index', $data);
+        $this->load->view('templates/footer');
+    }
+
 
     public function create()
     {
@@ -80,6 +110,25 @@ class Buku extends CI_Controller
             }
         }
     }
+
+    public function filter()
+    {
+        // Dapatkan ID kategori yang dipilih dari form
+        $id_kategori_buku = $this->input->get("id_kategori_buku");
+
+        // Dapatkan semua buku dengan ID kategori yang dipilih
+        $data['data_buku'] = $this->Buku_model->get_buku_by_category($id_kategori_buku);
+
+        // Dapatkan semua kategori untuk dropdown filter
+        $data['data_kategori_buku'] = $this->Kategori_buku_model->get_all_kategori_buku();
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('buku/index', $data);
+        $this->load->view('templates/footer');
+    }
+
+
 
     public function delete($id_buku)
     {

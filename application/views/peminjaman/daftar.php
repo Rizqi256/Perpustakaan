@@ -165,7 +165,12 @@
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
-
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div>
+                                    <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                                        <?php echo $this->pagination->create_links(); ?>
+                                    </div>
+                                </div>
                                 <!--end::Table-->
                             </div>
                             <!--end::Card body-->

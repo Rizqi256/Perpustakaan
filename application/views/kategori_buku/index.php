@@ -75,15 +75,7 @@
                             <div class="card-header border-0 pt-6">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative my-1">
-                                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
-                                    </div>
-                                    <!--end::Search-->
+
 
                                 </div>
                                 <!-- Button trigger modal -->
@@ -155,6 +147,12 @@
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div>
+                                    <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                                        <?php echo $this->pagination->create_links(); ?>
+                                    </div>
+                                </div>
                                 <!--end::Table-->
                             </div>
                             <!--end::Card body-->

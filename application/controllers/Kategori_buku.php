@@ -8,15 +8,29 @@ class Kategori_buku extends CI_Controller
         parent::__construct();
         $this->load->model('Buku_model');
         $this->load->model('Kategori_buku_model');
+        $this->load->model('My_model');
+        $this->load->library('pagination');
     }
 
     public function index()
     {
-        $data['data_kategori_buku'] = $this->Kategori_buku_model->get_all_kategori_buku();
+        $config = array();
+        $config["base_url"] = base_url() . "kategori_buku/index";
+        $config["total_rows"] = $this->My_model->count_all_records('kategori_buku'); // Ganti 'kategori_buku' dengan nama tabel yang sesuai
+        $config["per_page"] = 2; // Sesuaikan dengan jumlah item per halaman yang diinginkan
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
 
+        $pagination_links = $this->pagination->initialize($config);;
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
+
+        $data['data_kategori_buku'] = $this->My_model->get_paginated_data('kategori_buku', $config["per_page"], ($page - 1) * $config["per_page"]); // Ganti 'kategori_buku' dengan nama tabel yang sesuai
+
+        // Load view dengan data paginasi
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('kategori_buku/index', $data);  // Mengubah ke view kategori_buku
+        $this->load->view('kategori_buku/index', array('data_kategori_buku' => $data['data_kategori_buku'], 'pagination_links' => $pagination_links));
         $this->load->view('templates/footer');
     }
 

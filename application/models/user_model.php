@@ -12,6 +12,18 @@ class User_model extends CI_Model
         return $this->db->get('user')->result();
     }
 
+    public function search_users($keyword)
+    {
+        // Lakukan query ke database untuk mencari user berdasarkan kata kunci
+        $this->db->like('username', $keyword);
+        $this->db->or_like('nama', $keyword);
+        $this->db->or_like('email', $keyword);
+        $query = $this->db->get('user');
+
+        // Kembalikan hasil pencarian sebagai array
+        return $query->result();
+    }
+
     public function update_profile($id_user, $data)
     {
         $this->db->where('username', $id_user);

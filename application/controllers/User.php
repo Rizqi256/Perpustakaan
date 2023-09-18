@@ -8,17 +8,50 @@ class User extends CI_Controller
     {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->model('My_model');
+        $this->load->library('pagination');
     }
 
     public function index()
     {
-        $data['data_user'] = $this->User_model->get_all_users();
+        $config = array();
+        $config["base_url"] = base_url() . "user/index"; // Sesuaikan dengan URL Anda
+        $config["total_rows"] = $this->My_model->count_all_records('user'); // Ganti 'kategori_buku' dengan nama tabel yang sesuai
+        $config["per_page"] = 2; // Sesuaikan dengan jumlah item per halaman yang diinginkan
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
 
+        $pagination_links = $this->pagination->initialize($config);;
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
+
+        $data_user =  $this->My_model->get_paginated_data('user', $config["per_page"], ($page - 1) * $config["per_page"]); // Ganti 'kategori_buku' dengan nama tabel yang sesuai
+
+        $data['data_user'] = $data_user;
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/index', array('data_user' => $data['data_user'], 'pagination_links' => $pagination_links));
+        $this->load->view('templates/footer');
+    }
+
+    public function search()
+    {
+        $keyword = $this->input->post('keyword'); // Ambil kata kunci dari form pencarian
+
+        // Panggil model atau method di model Anda untuk melakukan pencarian
+        $data['data_user'] = $this->User_model->search_users($keyword);
+
+        // Set variabel $searched menjadi true untuk menampilkan tombol "Back"
+        $data['searched'] = true;
+
+        // Load view yang menampilkan hasil pencarian
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar', $data);
         $this->load->view('user/index', $data);
         $this->load->view('templates/footer');
     }
+
 
     public function profile()
     {

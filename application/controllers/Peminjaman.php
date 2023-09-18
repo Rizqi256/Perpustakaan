@@ -8,6 +8,8 @@ class Peminjaman extends CI_Controller
         parent::__construct();
         $this->load->model('Peminjaman_model', 'peminjaman_model');
         $this->load->model('Buku_model', 'buku_model');
+        $this->load->model('My_model');
+        $this->load->library('pagination');
     }
 
     public function index()
@@ -63,27 +65,27 @@ class Peminjaman extends CI_Controller
 
     public function daftar()
     {
-        $status = $this->input->get('status'); // Mendapatkan status dari permintaan filter
+        $config = array();
+        $config["base_url"] = base_url() . "peminjaman/daftar"; // Sesuaikan dengan URL Anda
+        $config["total_rows"] = $this->My_model->count_all_records('peminjaman'); // Ganti dengan metode yang sesuai di model Anda
+        $config["per_page"] = 2; // Sesuaikan dengan jumlah item per halaman yang diinginkan
+        $config["uri_segment"] = 3;
+        $config['use_page_numbers'] = TRUE;
 
-        $data_peminjaman = $this->peminjaman_model->get_all_peminjaman();
+        // Inisialisasi pagination
+        $this->pagination->initialize($config);
 
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1;
 
-        if ($status === '') {
-            // Tampilkan semua data
-            $data_peminjaman = $this->peminjaman_model->get_all_peminjaman();
-        } else {
-            // Lakukan filter berdasarkan status
-            $data_peminjaman;
-        }
+        $data_peminjaman = $this->My_model->get_paginated_data('peminjaman', $config["per_page"], ($page - 1) * $config["per_page"]); // Ganti 'kategori_buku' dengan nama tabel yang sesuai
+
+        $data['data_peminjaman'] = $data_peminjaman;
 
         // Filter data berdasarkan status yang dipilih
-        if ($status === 'Pinjam') {
-            $data_peminjaman = array_filter($data_peminjaman, function ($peminjaman) {
-                return $peminjaman->status === 'Pinjam';
-            });
-        } elseif ($status === 'Kembali') {
-            $data_peminjaman = array_filter($data_peminjaman, function ($peminjaman) {
-                return $peminjaman->status === 'Kembali';
+        $status = $this->input->get('status');
+        if (!empty($status)) {
+            $data_peminjaman = array_filter($data_peminjaman, function ($peminjaman) use ($status) {
+                return $peminjaman->status === $status;
             });
         }
 
@@ -106,9 +108,10 @@ class Peminjaman extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('peminjaman/daftar', $data);
+        $this->load->view('peminjaman/daftar', array('data_peminjaman' => $data['data_peminjaman'], 'pagination_links' => $this->pagination->create_links()));
         $this->load->view('templates/footer');
     }
+
 
     public function hapus_peminjaman($id_peminjaman)
     {

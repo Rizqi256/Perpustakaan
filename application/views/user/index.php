@@ -76,20 +76,23 @@
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative my-1">
-                                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
-                                    </div>
+                                    <form method="post" action="<?= base_url('user/search'); ?>">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="searchUser" name="keyword" placeholder="Search user...">
+                                            <button type="submit" class="btn btn-primary" id="btnSearch">Search</button>
+                                            <?php if (isset($searched) && $searched === true) : ?>
+                                                <a href="<?= base_url('user/index'); ?>" class="btn btn-secondary">Back</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </form>
                                     <!--end::Search-->
                                     <?= $this->session->flashdata('message'); ?>
                                 </div>
-                                <!--begin::Card title-->
-
+                                <!--end::Card title-->
                             </div>
                             <!--end::Card header-->
+
+
                             <!--begin::Card body-->
                             <div class="card-body py-4">
                                 <!--begin::Table-->
@@ -121,6 +124,12 @@
 
 
                                 </table>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div>
+                                    <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                                        <?php echo $this->pagination->create_links(); ?>
+                                    </div>
+                                </div>
                                 <!--end::Table-->
                             </div>
                             <!--end::Card body-->
