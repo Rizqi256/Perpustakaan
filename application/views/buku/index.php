@@ -89,52 +89,10 @@
                                     <!--end::Search-->
                                     <?= $this->session->flashdata('message'); ?>
                                     <!--begin::Toolbar-->
-                                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                        <!--begin::Filter-->
-                                        <form method="get" action="<?= base_url('buku/filter'); ?>">
-                                            <button type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                <i class="ki-duotone ki-filter fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>Filter</button>
-                                            <!--begin::Menu 1-->
-                                            <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
-                                                <!--begin::Header-->
-                                                <div class="px-7 py-5">
-                                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
-                                                </div>
-                                                <!--end::Header-->
-                                                <!--begin::Separator-->
-                                                <div class="separator border-gray-200"></div>
-                                                <!--end::Separator-->
-                                                <!--begin::Content-->
-                                                <div class="px-7 py-5" data-kt-user-table-filter="form">
-                                                    <!--begin::Input group-->
-                                                    <div class="mb-10">
-                                                        <label class="form-label fs-6 fw-semibold">Kategori Buku:</label>
-                                                        <select name="id_kategori_buku" class="form-select form-select-solid fw-bold" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="id_kategori_buku" data-hide-search="true">
-                                                            <option value="">Semua</option>
-                                                            <?php foreach ($data_kategori_buku as $kategori) : ?>
-                                                                <option value="<?= $kategori->id_kategori_buku; ?>"><?= $kategori->nama_kategori; ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <!--end::Input group-->
+                                    <!-- Add this button to your HTML -->
 
-                                                    <!--begin::Actions-->
-                                                    <div class="d-flex justify-content-end">
-                                                        <button type="reset" class="btn btn-light btn-active-light-primary fw-semibold me-2 px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="reset">Reset</button>
-                                                        <button type="submit" class="btn btn-primary fw-semibold px-6" data-kt-menu-dismiss="true" data-kt-user-table-filter="filter">Apply</button>
-                                                    </div>
-                                                    <!--end::Actions-->
-                                                </div>
-                                                <!--end::Content-->
-                                            </div>
-                                            <!--end::Menu 1-->
-                                            <!--end::Filter-->
-                                        </form>
-                                    </div>
                                     <!--end::Toolbar-->
+
                                 </div>
 
 
@@ -181,6 +139,7 @@
                             <!--begin::Card body-->
                             <div class="card-body py-4">
                                 <!--begin::Table-->
+
                                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
                                     <thead>
                                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">

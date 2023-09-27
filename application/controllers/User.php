@@ -71,7 +71,9 @@ class User extends CI_Controller
 
         // Validasi input
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]', [
+            'min_length' => "Password must be at least 3 characters"
+        ]);
 
         if ($this->form_validation->run() === FALSE) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Please fill out all required fields</div>');
@@ -89,7 +91,6 @@ class User extends CI_Controller
             redirect('user/profile');
         }
     }
-
 
     public function delete($id_user)
     {

@@ -57,6 +57,7 @@ class Peminjaman extends CI_Controller
         redirect('peminjaman/daftar');
     }
 
+
     public function kembalikan_buku($id_peminjaman)
     {
         $this->peminjaman_model->kembalikan_buku($id_peminjaman);
@@ -112,7 +113,6 @@ class Peminjaman extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-
     public function hapus_peminjaman($id_peminjaman)
     {
         $peminjaman = $this->peminjaman_model->get_peminjaman_by_id($id_peminjaman);
@@ -124,5 +124,22 @@ class Peminjaman extends CI_Controller
         } else {
             redirect('peminjaman/daftar');
         }
+    }
+
+    public function hapus_peminjaman_multiple()
+    {
+        $selected_items = $this->input->post('selected_items');
+
+        if (!empty($selected_items)) {
+            foreach ($selected_items as $id_peminjaman) {
+                $peminjaman = $this->peminjaman_model->get_peminjaman_by_id($id_peminjaman);
+
+                if ($peminjaman->status !== 'Pinjam') {
+                    $this->peminjaman_model->delete_peminjaman($id_peminjaman);
+                }
+            }
+        }
+
+        redirect('peminjaman/daftar');
     }
 }

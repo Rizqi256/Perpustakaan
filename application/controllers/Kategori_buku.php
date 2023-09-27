@@ -88,11 +88,13 @@ class Kategori_buku extends CI_Controller
         }
     }
 
-    public function delete($id_buku)
+    public function delete($id_kategori_buku)
     {
-        $this->Buku_model->delete_buku($id_buku);
+        $data['data_kategori_buku'] = $this->Kategori_buku_model->get_kategori_buku_by_id($id_kategori_buku);
+
+        $this->Kategori_buku_model->delete_kategori_buku($id_kategori_buku);
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil dihapus</div>');
-        redirect('buku/index');
+        redirect('kategori_buku/index');
     }
 }

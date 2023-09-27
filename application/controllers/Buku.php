@@ -24,8 +24,8 @@ class Buku extends CI_Controller
         $this->pagination->initialize($config);
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1; // Mendapatkan nomor halaman dari URI
-
         $data['data_buku'] = $this->Buku_model->get_buku_paginated($config["per_page"], $page);
+        $data['data_kategori_buku'] = $this->Kategori_buku_model->get_all_kategori_buku();
 
         // Load view dengan data paginasi
         $this->load->view('templates/header');
@@ -127,8 +127,6 @@ class Buku extends CI_Controller
         $this->load->view('buku/index', $data);
         $this->load->view('templates/footer');
     }
-
-
 
     public function delete($id_buku)
     {

@@ -44,7 +44,6 @@ class Peminjaman_model extends CI_Model
         return $this->db->get_where('detail', array('id_peminjaman' => $id_peminjaman))->result();
     }
 
-
     public function get_peminjaman_by_id($id_peminjaman)
     {
         return $this->db->get_where('peminjaman', array('id_peminjaman' => $id_peminjaman))->row();

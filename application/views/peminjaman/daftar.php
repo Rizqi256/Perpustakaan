@@ -133,38 +133,55 @@
                             <!--begin::Card body-->
                             <div class="card-body py-4">
                                 <!--begin::Table-->
-                                <table class="table align-middle table-row-dashed fs-6 gy-5" id="peminjamanTable">
-                                    <thead>
-                                        <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                            <th>ID Peminjaman</th>
-                                            <th>ID User</th>
-                                            <th>Nama Buku</th>
-                                            <th>Tanggal Peminjaman</th>
-                                            <th>Tanggal Pengembalian</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-gray-600 fw-semibold">
-                                        <?php foreach ($data_peminjaman as $peminjaman) : ?>
-                                            <tr>
-                                                <td><?= $peminjaman->id_peminjaman; ?></td>
-                                                <td><?= $peminjaman->user_name; ?></td>
-                                                <td><?= $peminjaman->nama_buku; ?></td>
-                                                <td><?= $peminjaman->tanggal_peminjaman; ?></td>
-                                                <td><?= $peminjaman->tanggal_pengembalian; ?></td>
-                                                <td><?= $peminjaman->status; ?></td>
-                                                <td>
-                                                    <?php if ($peminjaman->status === 'Pinjam') : ?>
-                                                        <a href="<?= base_url('peminjaman/kembalikan_buku/' . $peminjaman->id_peminjaman); ?>" class="btn btn-secondary btn-info">Kembalikan</a>
-                                                    <?php elseif ($peminjaman->status === 'Kembali') : ?>
-                                                        <a href="<?= base_url('peminjaman/hapus_peminjaman/' . $peminjaman->id_peminjaman); ?>" class="btn btn-secondary btn-danger">Hapus</a>
-                                                    <?php endif; ?>
-                                                </td>
+                                <form method="post" action="<?= base_url('peminjaman/hapus_peminjaman_multiple'); ?>">
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="peminjamanTable">
+                                        <thead>
+                                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                                <th class="w-10px pe-2">
+                                                    <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                                        <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_table_users .form-check-input" value="1" />
+                                                    </div>
+                                                </th>
+                                                <th>ID Peminjaman</th>
+                                                <th>ID User</th>
+                                                <th>Nama Buku</th>
+                                                <th>Tanggal Peminjaman</th>
+                                                <th>Tanggal Pengembalian</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody class="text-gray-600 fw-semibold">
+                                            <?php foreach ($data_peminjaman as $peminjaman) : ?>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                            <?php if ($peminjaman->status !== 'Pinjam') : ?>
+                                                                <input class="form-check-input" type="checkbox" name="selected_items[]" value="<?= $peminjaman->id_peminjaman; ?>" />
+                                                            <?php else : ?>
+                                                                <input class="form-check-input" type="checkbox" disabled />
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </td>
+                                                    <td><?= $peminjaman->id_peminjaman; ?></td>
+                                                    <td><?= $peminjaman->user_name; ?></td>
+                                                    <td><?= $peminjaman->nama_buku; ?></td>
+                                                    <td><?= $peminjaman->tanggal_peminjaman; ?></td>
+                                                    <td><?= $peminjaman->tanggal_pengembalian; ?></td>
+                                                    <td><?= $peminjaman->status; ?></td>
+                                                    <td>
+                                                        <?php if ($peminjaman->status === 'Pinjam') : ?>
+                                                            <a href="<?= base_url('peminjaman/kembalikan_buku/' . $peminjaman->id_peminjaman); ?>" class="btn btn-secondary btn-info">Kembalikan</a>
+                                                        <?php elseif ($peminjaman->status === 'Kembali') : ?>
+                                                            <a href="<?= base_url('peminjaman/hapus_peminjaman/' . $peminjaman->id_peminjaman); ?>" class="btn btn-secondary btn-danger">Hapus</a>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-danger" id="btnHapusTerpilih" style="display: none;">Hapus Terpilih</button>
+                                </form>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"></div>
                                     <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -223,3 +240,38 @@
         </i>
     </div>
     <!--end::Scrolltop-->
+    <script>
+        // Memilih semua checkbox
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        // Tombol "Hapus Terpilih"
+        const btnHapusTerpilih = document.getElementById('btnHapusTerpilih');
+
+        // Fungsi untuk memeriksa apakah setidaknya satu checkbox dicentang
+        function checkIfAnyCheckboxChecked() {
+            let atLeastOneChecked = false;
+
+            for (const checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    atLeastOneChecked = true;
+                }
+
+                if (checkbox.checked && checkbox.getAttribute('data-status') === 'Pinjam') {
+                    // Jika ada yang dicentang dan statusnya "Pinjam," batalkan cek dan tampilkan pesan (opsional)
+                    checkbox.checked = false;
+                    alert('Anda tidak dapat menghapus peminjaman dengan status "Pinjam".');
+                }
+            }
+
+            // Jika setidaknya satu checkbox dicentang, tampilkan tombol "Hapus Terpilih"
+            if (atLeastOneChecked) {
+                btnHapusTerpilih.style.display = 'block';
+            } else {
+                btnHapusTerpilih.style.display = 'none';
+            }
+        }
+
+        // Tambahkan event listener pada setiap checkbox untuk memeriksa perubahan
+        for (const checkbox of checkboxes) {
+            checkbox.addEventListener('change', checkIfAnyCheckboxChecked);
+        }
+    </script>
