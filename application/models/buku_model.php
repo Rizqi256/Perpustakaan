@@ -13,7 +13,7 @@ class Buku_model extends CI_Model
     }
     public function get_buku_by_id($id_buku)
     {
-        $this->db->select('buku.*, kategori_buku.nama_kategori AS nama_kategori');
+        $this->db->select('buku.*, buku.id_buku AS id_buku');
         $this->db->from('buku');
         $this->db->where('buku.id_buku', $id_buku);
         return $this->db->get()->row();

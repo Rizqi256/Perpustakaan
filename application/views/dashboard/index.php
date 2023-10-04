@@ -78,182 +78,31 @@
                                     <div class="card-header border-0 pt-5">
                                         <!--begin::Title-->
                                         <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label fw-bold fs-3 mb-1">Recent Statistics</span>
-                                            <span class="text-muted fw-semibold fs-7">More than 400 new members</span>
+                                            <span class="card-label fw-bold fs-3 mb-1">Data Peminjaman</span>
                                         </h3>
                                         <!--end::Title-->
-                                        <!--begin::Toolbar-->
-                                        <div class="card-toolbar">
-                                            <!--begin::Menu-->
-                                            <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                <i class="ki-duotone ki-category fs-6">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                    <span class="path3"></span>
-                                                    <span class="path4"></span>
-                                                </i>
-                                            </button>
-                                            <!--begin::Menu 1-->
-                                            <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true" id="kt_menu_641acc604b7d1">
-                                                <!--begin::Header-->
-                                                <div class="px-7 py-5">
-                                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
-                                                </div>
-                                                <!--end::Header-->
-                                                <!--begin::Menu separator-->
-                                                <div class="separator border-gray-200"></div>
-                                                <!--end::Menu separator-->
-                                                <!--begin::Form-->
-                                                <div class="px-7 py-5">
-                                                    <!--begin::Input group-->
-                                                    <div class="mb-10">
-                                                        <!--begin::Label-->
-                                                        <label class="form-label fw-semibold">Status:</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Input-->
-                                                        <div>
-                                                            <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select option" data-dropdown-parent="#kt_menu_641acc604b7d1" data-allow-clear="true">
-                                                                <option></option>
-                                                                <option value="1">Approved</option>
-                                                                <option value="2">Pending</option>
-                                                                <option value="2">In Process</option>
-                                                                <option value="2">Rejected</option>
-                                                            </select>
-                                                        </div>
-                                                        <!--end::Input-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Input group-->
-                                                    <div class="mb-10">
-                                                        <!--begin::Label-->
-                                                        <label class="form-label fw-semibold">Member Type:</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Options-->
-                                                        <div class="d-flex">
-                                                            <!--begin::Options-->
-                                                            <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                                                <input class="form-check-input" type="checkbox" value="1" />
-                                                                <span class="form-check-label">Author</span>
-                                                            </label>
-                                                            <!--end::Options-->
-                                                            <!--begin::Options-->
-                                                            <label class="form-check form-check-sm form-check-custom form-check-solid">
-                                                                <input class="form-check-input" type="checkbox" value="2" checked="checked" />
-                                                                <span class="form-check-label">Customer</span>
-                                                            </label>
-                                                            <!--end::Options-->
-                                                        </div>
-                                                        <!--end::Options-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Input group-->
-                                                    <div class="mb-10">
-                                                        <!--begin::Label-->
-                                                        <label class="form-label fw-semibold">Notifications:</label>
-                                                        <!--end::Label-->
-                                                        <!--begin::Switch-->
-                                                        <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                                            <input class="form-check-input" type="checkbox" value="" name="notifications" checked="checked" />
-                                                            <label class="form-check-label">Enabled</label>
-                                                        </div>
-                                                        <!--end::Switch-->
-                                                    </div>
-                                                    <!--end::Input group-->
-                                                    <!--begin::Actions-->
-                                                    <div class="d-flex justify-content-end">
-                                                        <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
-                                                        <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
-                                                    </div>
-                                                    <!--end::Actions-->
-                                                </div>
-                                                <!--end::Form-->
-                                            </div>
-                                            <!--end::Menu 1-->
-                                            <!--end::Menu-->
-                                        </div>
-                                        <!--end::Toolbar-->
                                     </div>
                                     <!--end::Header-->
                                     <!--begin::Body-->
                                     <div class="card-body">
-                                        <!--begin::Chart-->
-                                        <div id="kt_charts_widget_1_chart" style="height: 350px"></div>
-                                        <!--end::Chart-->
+                                        <canvas id="peminjamanChart"></canvas>
                                     </div>
                                     <!--end::Body-->
                                 </div>
                                 <!--end::Charts Widget 1-->
                             </div>
-                            <div class="col-xl-6">
-                                <!--begin::Charts Widget 3-->
-                                <div class="card card-xl-stretch mb-xl-8">
-                                    <!--begin::Header-->
-                                    <div class="card-header border-0 pt-5">
-                                        <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label fw-bold fs-3 mb-1">Recent Transactions</span>
-                                            <span class="text-muted fw-semibold fs-7">More than 1000 new records</span>
-                                        </h3>
-                                        <!--begin::Toolbar-->
-                                        <div class="card-toolbar" data-kt-buttons="true">
-                                            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary active px-4 me-1" id="kt_charts_widget_3_year_btn">Year</a>
-                                            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1" id="kt_charts_widget_3_month_btn">Month</a>
-                                            <a class="btn btn-sm btn-color-muted btn-active btn-active-primary px-4" id="kt_charts_widget_3_week_btn">Week</a>
-                                        </div>
-                                        <!--end::Toolbar-->
-                                    </div>
-                                    <!--end::Header-->
-                                    <!--begin::Body-->
-                                    <div class="card-body">
-                                        <!--begin::Chart-->
-                                        <div id="kt_charts_widget_3_chart" style="height: 350px"></div>
-                                        <!--end::Chart-->
-                                    </div>
-                                    <!--end::Body-->
-                                </div>
-                                <!--end::Charts Widget 3-->
-                            </div>
+
+
 
                         </div>
                         <!--end::Row-->
-                        <!--begin::Row-->
 
-                        <!--end::Row-->
-                        <!--begin::Row-->
-
-                        <!--end::Row-->
-                        <!--begin::Row-->
-
-                        <!--end::Row-->
                     </div>
                     <!--end::Container-->
                 </div>
                 <!--end::Content-->
                 <!--begin::Footer-->
-                <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
-                    <!--begin::Container-->
-                    <div class="container d-flex flex-column flex-md-row flex-stack">
-                        <!--begin::Copyright-->
-                        <div class="text-dark order-2 order-md-1">
-                            <span class="text-gray-400 fw-semibold me-1">Created by</span>
-                            <a href="https://keenthemes.com" target="_blank" class="text-muted text-hover-primary fw-semibold me-2 fs-6">Keenthemes</a>
-                        </div>
-                        <!--end::Copyright-->
-                        <!--begin::Menu-->
-                        <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                            <li class="menu-item">
-                                <a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="https://devs.keenthemes.com" target="_blank" class="menu-link px-2">Support</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="https://1.envato.market/EA4JP" target="_blank" class="menu-link px-2">Purchase</a>
-                            </li>
-                        </ul>
-                        <!--end::Menu-->
-                    </div>
-                    <!--end::Container-->
-                </div>
+
                 <!--end::Footer-->
             </div>
             <!--end::Wrapper-->
@@ -261,6 +110,8 @@
         <!--end::Page-->
     </div>
     <!--end::Root-->
+
+
 
     <!--end::Main-->
     <!--begin::Scrolltop-->
@@ -271,3 +122,46 @@
         </i>
     </div>
     <!--end::Scrolltop-->
+
+    <!-- dashboard/index.php -->
+
+    <!-- dashboard/index.php -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var chartData = <?php echo json_encode($chart_data); ?>;
+
+            // Membuat array dengan nama hari dalam bahasa Indonesia
+            var daysOfWeek = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+            var ctx = document.getElementById("peminjamanChart").getContext("2d");
+            var peminjamanChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: chartData.map(function(data) {
+                        var date = new Date(data.tanggal);
+                        var dayIndex = date.getDay();
+
+                        // Menggunakan nama hari sesuai indeks
+                        return daysOfWeek[dayIndex];
+                    }),
+                    datasets: [{
+                        label: "Jumlah Peminjaman",
+                        data: chartData.map(function(data) {
+                            return data.jumlah_peminjaman;
+                        }),
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1,
+                    }, ],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+        });
+    </script>

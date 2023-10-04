@@ -38,5 +38,8 @@ License: For each use you must have a valid license purchased only from above li
     <link href="<?= base_url('vendor/'); ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('vendor/'); ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <!--end::Head-->
