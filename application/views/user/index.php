@@ -94,6 +94,25 @@
                             </div>
                             <!--end::Card header-->
 
+                            <?php foreach ($data_user as $user) : ?>
+                                <div class="modal fade" id="confirmDeleteModal<?= $user->id_user; ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus user</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin menghapus user : <strong><?= $user->nama; ?></strong>?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <a href="<?= base_url('user/delete/' . $user->id_user); ?>" class="btn btn-danger">Hapus</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
 
                             <!--begin::Card body-->
                             <div class="card-body py-4">
@@ -129,7 +148,7 @@
                                                 <td><?= $user->email; ?></td>
                                                 <td class="text-end">
                                                     <!-- Delete button -->
-                                                    <a href="<?= base_url('user/delete/' . $user->id_user); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                                                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $user->id_user; ?>">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

@@ -76,6 +76,7 @@
                                 <!--begin::Card title-->
                                 <div class="card-title">
                                     <!--begin::Search-->
+                                    <?= $this->session->flashdata('message'); ?>
 
                                     <!--end::Search-->
                                 </div>

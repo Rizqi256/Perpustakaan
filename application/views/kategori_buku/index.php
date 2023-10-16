@@ -107,9 +107,28 @@
                                     </div>
                                 </div>
                                 <!--begin::Card title-->
-
+                                <?php foreach ($data_kategori_buku as $kategori) : ?>
+                                    <div class="modal fade" id="confirmDeleteModal<?= $kategori->id_kategori_buku; ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus kategori</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah Anda yakin ingin menghapus kategori : <strong><?= $kategori->nama_kategori; ?></strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <a href="<?= base_url('kategori_buku/delete/' . $kategori->id_kategori_buku); ?>" class="btn btn-danger">Hapus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                             <!--end::Card header-->
+
                             <!--begin::Card body-->
                             <div class="card-body py-4">
                                 <!--begin::Table-->
@@ -128,17 +147,18 @@
                                                 <td><?= $kategori->nama_kategori; ?></td>
                                                 <td class="text-end">
                                                     <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </a>
                                                     <!--begin::Menu-->
                                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
                                                         <!--begin::Menu item-->
                                                         <div class="menu-item px-3">
-                                                            <a href="<?= base_url('kategori_buku/edit/' . $kategori->id_kategori_buku); ?>" class="menu-link px-3">Edit</a>
+                                                            <a href="<?= base_url('kategori/edit/' . $kategori->id_kategori_buku); ?>" class="menu-link px-3">Edit</a>
                                                         </div>
                                                         <!--end::Menu item-->
                                                         <!--begin::Menu item-->
                                                         <div class="menu-item px-3">
-                                                            <a href="<?= base_url('kategori_buku/delete/' . $kategori->id_kategori_buku); ?>" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
+                                                            <a href="#" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $kategori->id_kategori_buku; ?>">Delete</a>
                                                         </div>
                                                         <!--end::Menu item-->
                                                     </div>

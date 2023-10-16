@@ -74,9 +74,8 @@
 
                             <!--end::Card header-->
                             <!--begin::Card body-->
-                            <!-- ... (kode sebelumnya) ... -->
                             <div class="card-body py-4">
-                                <form method="post" action="<?= base_url('buku/update/' . $data_buku->id_buku); ?>">
+                                <form method="post" action="<?= base_url('buku/update/' . $data_buku->id_buku); ?>" enctype="multipart/form-data">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" name="judul_buku" value="<?= $data_buku->nama_buku; ?>" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                     </div>
@@ -87,6 +86,9 @@
                                                 <option value="<?= $kategori->id_kategori_buku; ?>" <?= ($kategori->id_kategori_buku == $data_buku->id_kategori_buku) ? 'selected' : ''; ?>><?= $kategori->nama_kategori; ?></option>
                                             <?php endforeach; ?>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="file" class="form-control" name="userfile" accept="image/*">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>

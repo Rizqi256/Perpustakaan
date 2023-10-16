@@ -24,7 +24,7 @@ class Buku extends CI_Controller
         $this->pagination->initialize($config);
 
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1; // Mendapatkan nomor halaman dari URI
-        $data['data_buku'] = $this->Buku_model->get_buku_paginated($config["per_page"], $page);
+        $data['data_buku'] = $this->Buku_model->get_buku_paginated($config["per_page"], ($page - 1) * $config["per_page"]);
         $data['data_kategori_buku'] = $this->Kategori_buku_model->get_all_kategori_buku();
 
         // Load view dengan data paginasi
@@ -63,15 +63,37 @@ class Buku extends CI_Controller
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Isi semua data</div>');
                 redirect('buku/index');
             } else {
-                // Insert data ke dalam tabel buku
-                $data = array(
-                    'id_kategori_buku' => $idKategoriBuku,
-                    'nama_buku' => $judulBuku
-                );
-                $this->Buku_model->insert_buku($data);
+                // Mengunggah gambar
+                $config['upload_path'] = 'image/buku'; // Sesuaikan dengan path folder 
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size'] = 2048; // Maksimal ukuran gambar (dalam KB)
 
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil ditambahkan</div>');
-                redirect('buku/index');
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('userfile')) {
+                    $image_data = $this->upload->data();
+                    $foto = $image_data['file_name'];
+
+                    // Set status buku ke "Kembali"
+                    $status = 'Kembali';
+
+                    // Insert data buku ke database
+                    $data = array(
+                        'id_kategori_buku' => $idKategoriBuku,
+                        'nama_buku' => $judulBuku,
+                        'foto' => $foto, // Menyimpan nama file gambar
+                        'status' => $status // Status buku menjadi "Kembali"
+                    );
+
+                    $this->Buku_model->insert_buku($data);
+
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil ditambahkan</div>');
+                    redirect('buku/index');
+                } else {
+                    $error = array('error' => $this->upload->display_errors());
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $error['error'] . '</div>');
+                    redirect('buku/index');
+                }
             }
         }
     }
@@ -95,21 +117,98 @@ class Buku extends CI_Controller
 
             // Validasi input
             if (empty($judulBuku) || empty($idKategoriBuku)) {
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Isi semua data</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Isi semua data</div>');
                 redirect('buku/index');
             } else {
-                // Update data di tabel buku
-                $data = array(
-                    'id_kategori_buku' => $idKategoriBuku,
-                    'nama_buku' => $judulBuku
-                );
-                $this->Buku_model->update_buku($id_buku, $data);
+                // Cek apakah file telah upload
+                if (!empty($_FILES['userfile']['name'])) {
+                    // Mengunggah gambar
+                    $config['upload_path'] = 'image/buku'; // Sesuaikan dengan path folder
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                    $config['max_size'] = 2048; // Maksimal ukuran gambar (dalam KB)
+                    $config['file_name'] = 'buku_' . time(); // Nama file gambar akan disimpan dengan format "buku_tanggalwaktu"
 
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diperbarui</div>');
-                redirect('buku/index');
+                    $this->load->library('upload', $config);
+
+                    if ($this->upload->do_upload('userfile')) {
+                        $image_data = $this->upload->data();
+                        $foto = $image_data['file_name'];
+
+                        // Update data di tabel buku
+                        $data = array(
+                            'id_kategori_buku' => $idKategoriBuku,
+                            'nama_buku' => $judulBuku,
+                            'foto' => $foto // Menyimpan nama file gambar
+                        );
+
+                        $this->Buku_model->update_buku($id_buku, $data);
+
+                        // Delete the old photo if it exists
+                        $old_photo = $this->Buku_model->get_image_filename($id_buku);
+                        if ($old_photo && file_exists('image/buku/' . $old_photo)) {
+                            unlink('image/buku/' . $old_photo);
+                        }
+
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diperbarui</div>');
+                        redirect('buku/index');
+                    } else {
+                        $error = array('error' => $this->upload->display_errors());
+                        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $error['error'] . '</div>');
+                        redirect('buku/index');
+                    }
+                } else {
+                    // If no new photo is uploaded, update the data without changing the photo
+                    $data = array(
+                        'id_kategori_buku' => $idKategoriBuku,
+                        'nama_buku' => $judulBuku
+                    );
+                    $this->Buku_model->update_buku($id_buku, $data);
+
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diperbarui</div>');
+                    redirect('buku/index');
+                }
             }
         }
     }
+
+    public function komentar()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $data['id_user'] = $id_user;
+        $data['data_komentar'] = $this->Buku_model->get_komentar();
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('buku/komentar', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function tambah_komentar()
+    {
+        if ($this->input->server('REQUEST_METHOD') == "POST") {
+            $id_user = $this->session->userdata('id_user');
+            $isi_komentar = $this->input->post('isi_komentar');
+
+            // Validasi input
+            if (empty($isi_komentar)) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Isi komentar tidak boleh kosong</div>');
+                redirect('buku/komentar');
+            } else {
+                // Simpan komentar ke database
+                $data = array(
+                    'id_user' => $id_user,
+                    'isi_komentar' => $isi_komentar,
+                    'tanggal_komentar' => date('Y-m-d H:i:s') // Gunakan format yang sesuai
+                );
+
+                $this->Buku_model->insert_komentar($data); // Pastikan Anda memiliki model yang sesuai untuk komentar
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Komentar berhasil ditambahkan</div>');
+                redirect('buku/komentar');
+            }
+        }
+    }
+
+
 
     public function filter()
     {

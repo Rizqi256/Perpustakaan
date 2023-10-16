@@ -26,8 +26,32 @@ class Peminjaman extends CI_Controller
 
     public function pinjam_buku()
     {
-        $id_user = $this->input->post('id_user'); // Change 'nama' to 'id_user'
+        $id_user = $this->input->post('id_user');
         $id_buku_array = $this->input->post('id_buku');
+
+        // Check if the books can be borrowed
+        $all_books_available = true;
+        $books_to_borrow = [];
+
+        foreach ($id_buku_array as $id_buku) {
+            $buku = $this->peminjaman_model->get_buku_by_id($id_buku);
+
+            // Check if the book is available or already returned
+            if ($buku->status !== 'Available' && $buku->status !== 'Kembali') {
+                $all_books_available = false;
+                break;
+            } else {
+                // If the book can be borrowed, add it to the list
+                $books_to_borrow[] = $buku;
+            }
+        }
+
+        if (!$all_books_available) {
+            // Redirect with a message indicating that some books cannot be borrowed
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Beberapa buku tidak dapat dipinjam</div>');
+            redirect('peminjaman/daftar');
+            return;
+        }
 
         $tanggal_peminjaman = date('Y-m-d');
         $tanggal_pengembalian = date('Y-m-d', strtotime('+7 days', strtotime($tanggal_peminjaman)));
@@ -42,7 +66,9 @@ class Peminjaman extends CI_Controller
 
         $peminjaman_id = $this->peminjaman_model->create_peminjaman($peminjaman_data);
 
-        foreach ($id_buku_array as $id_buku) {
+        foreach ($books_to_borrow as $book) {
+            $id_buku = $book->id_buku;
+
             // Create the detail entry using the peminjaman ID
             $data_detail = array(
                 'id_peminjaman' => $peminjaman_id,
@@ -54,8 +80,11 @@ class Peminjaman extends CI_Controller
             $this->peminjaman_model->update_buku_status($id_buku, 'Pinjam');
         }
 
+        // Redirect with a success message
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku berhasil dipinjam</div>');
         redirect('peminjaman/daftar');
     }
+
 
 
     public function kembalikan_buku($id_peminjaman)
